@@ -1,14 +1,22 @@
-import React from "react";
-import { SafeAreaView, Text, View, StyleSheet } from "react-native";
+import React, {FC} from "react";
+import { SafeAreaView, Text, View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import Colors from "../../styles/Colors";
 
-const FloatingButton = () => {
+
+interface IButtonProps{
+    onPress : ()=>void;
+}
+
+const FloatingButton: FC<IButtonProps> = ({onPress}) => {
     return(
-        <SafeAreaView>
+        <TouchableWithoutFeedback onPress={onPress}>
+            <SafeAreaView>
             <View style={styles.container}>
                 <Text style={styles.icon}>+</Text>
             </View>
         </SafeAreaView>
+        </TouchableWithoutFeedback>
+        
     );
 }
 
