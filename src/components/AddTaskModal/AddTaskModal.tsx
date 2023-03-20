@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState} from 'react';
 import {SafeAreaView, Text, View, StyleSheet, Dimensions, TextInput, TouchableWithoutFeedback} from 'react-native';
 import Modal from 'react-native-modal';
 import Colors from '../../styles/Colors';
@@ -7,16 +7,32 @@ import Colors from '../../styles/Colors';
 interface IModalProps{
     isVisible: boolean;
     onClose : () => void;
+    onAddTask: (task: string) => void;
   }
 
 
-const AddTaskModal: FC<IModalProps> = ({isVisible, onClose}) => {
+const AddTaskModal: FC<IModalProps> = ({isVisible, onClose, onAddTask}) => {
+    
+    const [taskText, setTaskText] = useState<string>();
+    function handleTaskText(){
+        if(taskText){
+            onAddTask(taskText);
+        }
+        setTaskText('');
+    }
+
     return(
         <Modal isVisible={isVisible} style={styles.modalContainer} onBackdropPress={onClose}>
             <View style={styles.innerContainer}>
                 <Text style={styles.title}>Add a task your list</Text>
-                <TextInput style={styles.input} placeholder="Task..." placeholderTextColor='white' multiline={true} ></TextInput>
-                <TouchableWithoutFeedback>
+                <TextInput 
+                    style={styles.input} 
+                    placeholder="Task..." placeholderTextColor='white' 
+                    multiline={true}
+                    onChangeText={(t) => setTaskText(t)}
+                    value={taskText}
+                    ></TextInput>
+                <TouchableWithoutFeedback onPress={handleTaskText}>
                 <View style={styles.buttonContainer}>
                     <Text style={styles.buttonPlaceholder}> 
                         Add task
